@@ -144,7 +144,7 @@ ping -c 5 100.64.${INDEX}1.1
 read -p "press enter to continue"
 
 echo CT ping
-pint -c 5 218.22.21.27
+ping -c 5 218.22.21.27
 echo CT tunnel ping
 ping -c 5 100.64.${INDEX}2.1
 read -p "press enter to continue"
