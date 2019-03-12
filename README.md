@@ -117,6 +117,8 @@ make
 
 请下载测试结果文件，用于记录测试过程: [tunneltest.docx](tunneltest.docx)
 
+这里有一份测试结果供参考：[tunneltest-sample.docx](tunneltest-sample.docx)
+
 根据"二、测试环境"中信息，对服务器的6个入口分别测试（如果没有IPv6环境，可以跳过IPv6的测试）：
 
 以测试点1、服务器端教育网入口测试为例，测试过程如下：
