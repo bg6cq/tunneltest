@@ -16,12 +16,55 @@
 | eth0  |  2001:da8:d800:381::202   | 教育网IPv6 |
 
 
-=其他测试端，通过若干出口与科大侧隧道端点S建立隧道，测试连通性，并简单测试性能。
+其他测试端，通过若干出口与科大侧隧道端点S建立隧道，测试连通性，并简单测试性能。
 
 测试信息如下（密码单独发送）：
 
-218.22.21.27
-210.72.22.2 
+### 2.1 测试端1 信息
+
+| 网络入口 |  服务器端IP地址  |  隧道UDP端口  |   隧道IP地址段  | 
+| :-----   | :--------------- | :------- |  :------   |
+| 教育网   |  222.195.81.202  | 6011  |  100.64.11.* |
+| 电信     |  218.22.21.27    | 6012  |  100.64.12.* |
+| 联通     |  218.104.71.165  | 6013  |  100.64.13.* |
+| 移动     |  202.141.176.27  | 6014  |  100.64.14.* |
+| 科技网   |  210.72.22.2     | 6015  |  100.64.15.* |
+| IPv6     |  2001:da8:d800:381::202  | 6016 |   100.64.16.* |
+
+
+### 2.2 测试端2 信息
+
+| 网络入口 |  服务器端IP地址  |  隧道UDP端口  |   隧道IP地址段  |  
+| :-----   | :--------------- | :------- |  :------   |
+| 教育网   |  222.195.81.202  | 6021  |  100.64.21.* |
+| 电信     |  218.22.21.27    | 6022  |  100.64.22.* |
+| 联通     |  218.104.71.165  | 6023  |  100.64.23.* |
+| 移动     |  202.141.176.27  | 6024  |  100.64.24.* |
+| 科技网   |  210.72.22.2     | 6025  |  100.64.25.* |
+| IPv6     |  2001:da8:d800:381::202  | 6026 |   100.64.26.* |
+
+### 2.3 测试端3 信息
+
+| 网络入口 |  服务器端IP地址  |  隧道UDP端口  |   隧道IP地址段  |
+| :-----   | :--------------- | :------- |  :------   |
+| 教育网   |  222.195.81.202  | 6031  |  100.64.31.* |
+| 电信     |  218.22.21.27    | 6032  |  100.64.32.* |
+| 联通     |  218.104.71.165  | 6033  |  100.64.33.* |
+| 移动     |  202.141.176.27  | 6034  |  100.64.34.* |
+| 科技网   |  210.72.22.2     | 6035  |  100.64.35.* |
+| IPv6     |  2001:da8:d800:381::202  | 6036 |   100.64.36.* |
+
+### 2.3 测试端4 信息
+
+| 网络入口 |  服务器端IP地址  |  隧道UDP端口  |   隧道IP地址段  |
+| :-----   | :--------------- | :------- |  :------   |
+| 教育网   |  222.195.81.202  | 6041  |  100.64.41.* |
+| 电信     |  218.22.21.27    | 6042  |  100.64.42.* |
+| 联通     |  218.104.71.165  | 6043  |  100.64.43.* |
+| 移动     |  202.141.176.27  | 6044  |  100.64.44.* |
+| 科技网   |  210.72.22.2     | 6045  |  100.64.45.* |
+| IPv6     |  2001:da8:d800:381::202  | 6046 |   100.64.46.* |
+
 
 ## 三、测试步骤
 
@@ -43,7 +86,7 @@ ip route add 0/0 via x.x.x.z
 并修改文件`/etc/resolv.conf`，增加
 ```
 nameserver y.y.y.y
-···
+```
 其中y.y.y.y是DNS服务器IP。
 
 3.2 更新系统并安装相关软件
@@ -57,6 +100,107 @@ cd /usr/src/
 git clone https://github.com/bg6cq/ethudp.git
 cd ethudp
 make
-···
+```
+
+3.3 隧道测试
+
+请下载测试结果文件，用于记录测试过程: [tunneltest.docx](tunneltest.docx)
+
+根据"二、测试环境"中信息，对服务器的6个入口分别测试（如果没有IPv6环境，可以跳过IPv6的测试）：
+
+以测试点1、服务器端教育网入口测试为例，测试过程如下：
+
+以下命令中，`P=PASSWORD` `INDEX=1`请依据测试站点的不同修改。
+```
+
+P=PASSWORD
+INDEX=1
+
+killall -9 EthUDP
+/usr/src/ethudp/EthUDP -i -p $P -enc aes-128 -k $P 0.0.0.0 60${INDEX}1 222.195.81.202 60${INDEX}1 100.64.${INDEX}1.2 24
+/usr/src/ethudp/EthUDP -i -p $P -enc aes-128 -k $P 0.0.0.0 60${INDEX}2 218.22.21.27 60${INDEX}2 100.64.${INDEX}2.2 24
+/usr/src/ethudp/EthUDP -i -p $P -enc aes-128 -k $P 0.0.0.0 60${INDEX}3 218.104.71.165 60${INDEX}3 100.64.${INDEX}3.2 24
+/usr/src/ethudp/EthUDP -i -p $P -enc aes-128 -k $P 0.0.0.0 60${INDEX}4 202.141.176.27 60${INDEX}4 100.64.${INDEX}4.2 24
+/usr/src/ethudp/EthUDP -i -p $P -enc aes-128 -k $P 0.0.0.0 60${INDEX}5 210.72.22.2 60${INDEX}5 100.64.${INDEX}5.2 24
+/usr/src/ethudp/EthUDP -i -p $P -enc aes-128 -k $P 0::0 60${INDEX}6 2001:da8:d800:381::202 60${INDEX}6 100.64.${INDEX}6.2 24
+
+#测试各个线路的ping延迟，请记录平均值，单位是ms，有效数字两位即可
+
+echo CERNET ping
+ping -c 5 222.195.81.202
+
+echo CERNET tunnel ping
+ping -c 5 100.64.${INDEX}1.1
+
+echo CT ping
+pint -c 5 218.22.21.27
+
+echo CT tunnel ping
+ping -c 5 100.64.${INDEX}2.1
+
+echo CU ping
+ping -c 5 218.104.71.165
+
+echo CU tunnel ping
+ping -c 5 100.64.${INDEX}3.1
+
+echo CM ping
+ping -c 5 202.141.176.27
+
+echo CM tunnel ping
+ping -c 5 100.64.${INDEX}4.1
+
+echo CSTNET ping
+ping -c 5 210.72.22.2
+ping -c 5 100.64.${INDEX}5.1
+
+echo IPv6 ping
+ping6 -c 5 2001:da8:d800:381::202
+
+echo IPv6 tunnel ping
+ping -c 5 100.64.${INDEX}6.1
 
 
+#测试各个线路的wget速度，请记录最后结果，单位是MB/s，有效数字两位即可
+echo CERNET wget speed
+wget -O /dev/null http://222.195.81.202/test.iso
+read -p "press enter to continue"
+echo CERNET tunnel wget speed
+wget -O /dev/null http://100.64.${INDEX}1.1/test.iso
+read -p "press enter to continue"
+
+
+echo CT wget speed
+wget -O /dev/null http://218.22.21.27/test.iso
+read -p "press enter to continue"
+echo CT tunnel wget speed
+wget -O /dev/null http://100.64.${INDEX}2.1/test.iso
+read -p "press enter to continue"
+
+echo CU wget speed
+wget -O /dev/null http://218.104.71.165/test.iso
+read -p "press enter to continue"
+echo CU tunnel wget speed
+wget -O /dev/null http://100.64.${INDEX}3.1/test.iso
+read -p "press enter to continue"
+
+echo CM wget speed
+wget -O /dev/null http://202.141.176.27/test.iso
+read -p "press enter to continue"
+echo CM tunnel wget speed
+wget -O /dev/null http://100.64.${INDEX}4.1/test.iso
+read -p "press enter to continue"
+
+echo CSTNET wget speed
+wget -O /dev/null http://210.72.22.2/test.iso
+read -p "press enter to continue"
+echo CSTNET tunnel wget speed
+wget -O /dev/null http://100.64.${INDEX}5.1/test.iso
+read -p "press enter to continue"
+
+echo IPv6 wget speed
+wget -O /dev/null http://[2001:da8:d800:381::202]/test.iso
+read -p "press enter to continue"
+echo IPv6 tunnel wget speed
+wget -O /dev/null http://100.64.${INDEX}6.1/test.iso
+```
