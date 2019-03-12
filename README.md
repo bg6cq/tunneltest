@@ -54,7 +54,7 @@
 | 科技网   |  210.72.22.2     | 6035  |  100.64.35.* |
 | IPv6     |  2001:da8:d800:381::202  | 6036 |   100.64.36.* |
 
-### 2.3 测试端4 信息
+### 2.4 测试端4 信息
 
 | 网络入口 |  服务器端IP地址  |  隧道UDP端口  |   隧道IP地址段  |
 | :-----   | :--------------- | :------- |  :------   |
@@ -65,6 +65,17 @@
 | 科技网   |  210.72.22.2     | 6045  |  100.64.45.* |
 | IPv6     |  2001:da8:d800:381::202  | 6046 |   100.64.46.* |
 
+
+### 2.5 测试端4 信息
+
+| 网络入口 |  服务器端IP地址  |  隧道UDP端口  |   隧道IP地址段  |
+| :-----   | :--------------- | :------- |  :------   |
+| 教育网   |  222.195.81.202  | 6051  |  100.64.51.* |
+| 电信     |  218.22.21.27    | 6052  |  100.64.52.* |
+| 联通     |  218.104.71.165  | 6053  |  100.64.53.* |
+| 移动     |  202.141.176.27  | 6054  |  100.64.54.* |
+| 科技网   |  210.72.22.2     | 6055  |  100.64.55.* |
+| IPv6     |  2001:da8:d800:381::202  | 6056 |   100.64.56.* |
 
 ## 三、测试步骤
 
@@ -128,37 +139,39 @@ killall -9 EthUDP
 
 echo CERNET ping
 ping -c 5 222.195.81.202
-
 echo CERNET tunnel ping
 ping -c 5 100.64.${INDEX}1.1
+read -p "press enter to continue"
 
 echo CT ping
 pint -c 5 218.22.21.27
-
 echo CT tunnel ping
 ping -c 5 100.64.${INDEX}2.1
+read -p "press enter to continue"
 
 echo CU ping
 ping -c 5 218.104.71.165
-
 echo CU tunnel ping
 ping -c 5 100.64.${INDEX}3.1
+read -p "press enter to continue"
 
 echo CM ping
 ping -c 5 202.141.176.27
-
 echo CM tunnel ping
 ping -c 5 100.64.${INDEX}4.1
+read -p "press enter to continue"
 
 echo CSTNET ping
 ping -c 5 210.72.22.2
+echo CSTNET tunnel ping
 ping -c 5 100.64.${INDEX}5.1
+read -p "press enter to continue"
 
 echo IPv6 ping
 ping6 -c 5 2001:da8:d800:381::202
-
 echo IPv6 tunnel ping
 ping -c 5 100.64.${INDEX}6.1
+read -p "press enter to continue"
 
 
 #测试各个线路的wget速度，请记录最后结果，单位是MB/s，有效数字两位即可
@@ -168,7 +181,6 @@ read -p "press enter to continue"
 echo CERNET tunnel wget speed
 wget -O /dev/null http://100.64.${INDEX}1.1/test.iso
 read -p "press enter to continue"
-
 
 echo CT wget speed
 wget -O /dev/null http://218.22.21.27/test.iso
